@@ -1,0 +1,21 @@
+{
+  "name": "json-ld-editor",
+  "version": "0.0.1",
+  "description": "Editor for creating JSON-LD structured data for Google Rich Results.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "json-ld",
+    "structured",
+    "data",
+    "rich",
+    "results"
+  ],
+  "author": "Alexander Wende",
+  "license": "BSD-2-Clause",
+  "devDependencies": {
+    "typescript": "^4.4.3"
+  }
+}
