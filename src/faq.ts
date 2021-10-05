@@ -46,11 +46,11 @@ const template = function (this: FAQGenerator) {
         <form ${ ref(this.form) } @submit=${ this.handleSubmit } @reset=${ this.handleReset }>
             <div>
                 <label for="question">Question</label>
-                <input type="text" name="question" id="question" value=${ item?.name ?? '' } required>
+                <input type="text" name="question" id="question" autocomplete="off" value=${ item?.name ?? '' } required>
             </div>
             <div>
                 <label for="answer">Answer</label>
-                <input type="text" name="answer" id="answer" value=${ item?.acceptedAnswer.text ?? '' } required>
+                <textarea name="answer" id="answer" autocomplete="off" required>${ item?.acceptedAnswer.text ?? '' }</textarea>
             </div>
             <button type="submit">${ item ? 'Update' : 'Add' }</button>
             <button type="reset">${ item ? 'Cancel' : 'Clear' }</button>
