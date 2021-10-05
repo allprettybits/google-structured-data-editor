@@ -4,6 +4,8 @@
   "description": "Editor for creating JSON-LD structured data for Google Rich Results.",
   "main": "index.js",
   "scripts": {
+    "dev": "tsc --watch & wds --node-resolve --watch --open",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -16,6 +18,10 @@
   "author": "Alexander Wende",
   "license": "BSD-2-Clause",
   "devDependencies": {
+    "@web/dev-server": "^0.1.24",
     "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "lit": "^2.0.0"
   }
 }
