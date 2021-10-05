@@ -31,31 +31,42 @@ const QUESTION: Question = {
 const template = function (this: FAQGenerator) {
 
     const item = this.data.mainEntity[this.index];
-    const download = !item && this.data.mainEntity.length > 0;
+    const count = this.data.mainEntity.length;
+    const download = !item && count > 0;
 
     return html`
+    <header>
+        <h2>FAQ</h2>
+        ${ count } items
+        <button type="button" ?disabled=${ !download } @click=${ this.handleDownload }>Download</button>
+    </header>
+
+    <div class="list">
         ${ this.data.mainEntity.map((question, index) => html`
         <div class="item">
             <div class="question">${ question.name }</div>
             <div class="answer">${ question.acceptedAnswer.text }</div>
-            <button @click=${ ()=> this.editItem(index) }>Edit</button>
-            <button @click=${ ()=> this.deleteItem(index) }>Delete</button>
+            <div class="controls">
+                <button @click=${ () => this.editItem(index) }>Edit</button>
+                <button @click=${ () => this.deleteItem(index) }>Delete</button>
+            </div>
         </div>
         `) }
+    </div>
 
-        <form ${ ref(this.form) } @submit=${ this.handleSubmit } @reset=${ this.handleReset }>
-            <div>
-                <label for="question">Question</label>
-                <input type="text" name="question" id="question" autocomplete="off" value=${ item?.name ?? '' } required>
-            </div>
-            <div>
-                <label for="answer">Answer</label>
-                <textarea name="answer" id="answer" autocomplete="off" required>${ item?.acceptedAnswer.text ?? '' }</textarea>
-            </div>
-            <button type="submit">${ item ? 'Update' : 'Add' }</button>
+    <form ${ ref(this.form) } @submit=${ this.handleSubmit } @reset=${ this.handleReset }>
+        <div class="fields">
+            <label for="question">Question</label>
+            <input type="text" name="question" id="question" autocomplete="off" value=${ item?.name ?? '' } required>
+            <label for="answer">Answer</label>
+            <textarea name="answer" id="answer" autocomplete="off" rows="3"
+                required>${ item?.acceptedAnswer.text ?? '' }</textarea>
+        </div>
+        <div class="controls">
             <button type="reset">${ item ? 'Cancel' : 'Clear' }</button>
-            ${ download ? html`<button type="button" @click=${ this.handleDownload }>Download</button>` : '' }
-        </form>
+            <button type="submit">${ item ? 'Update' : 'Add' }</button>
+        </div>
+    </form>
     `;
 };
 

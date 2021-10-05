@@ -1,1 +1,1 @@
-import './faq';
+import './components/faq';

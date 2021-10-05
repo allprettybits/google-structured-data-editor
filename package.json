@@ -2,10 +2,19 @@
   "name": "json-ld-editor",
   "version": "0.0.1",
   "description": "Editor for creating JSON-LD structured data for Google Rich Results.",
-  "main": "index.js",
+  "type": "module",
+  "main": "./build/src/main.js",
+  "module": "./build/src/main.js",
   "scripts": {
-    "dev": "tsc --watch & wds --node-resolve --watch --open",
+    "clean": "rm -rf ./build ./dist",
     "build": "tsc",
+    "build:watch": "npm run build -- --watch",
+    "bundle": "rollup -c",
+    "bundle:watch": "npm run bundle -- --watch",
+    "serve": "wds --root-dir './dist' --open",
+    "serve:watch": "npm run serve -- --watch",
+    "dev": "npm run clean && npm run build && (npm run build:watch & npm run bundle:watch & npm run serve:watch)",
+    "prod": "npm run clean && npm run build && npm run bundle",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -18,7 +27,14 @@
   "author": "Alexander Wende",
   "license": "BSD-2-Clause",
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^11.2.1",
     "@web/dev-server": "^0.1.24",
+    "@web/rollup-plugin-copy": "^0.3.0",
+    "rollup": "^2.58.0",
+    "rollup-plugin-minify-html-literals": "^1.2.6",
+    "rollup-plugin-sourcemaps": "^0.6.3",
+    "rollup-plugin-summary": "^1.3.0",
+    "rollup-plugin-terser": "^7.0.2",
     "typescript": "^4.4.3"
   },
   "dependencies": {
