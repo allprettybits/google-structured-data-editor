@@ -1,6 +1,7 @@
 import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { createRef, ref } from 'lit/directives/ref.js';
+import type { FileChangeEvent } from './file';
 
 export interface FAQPage {
     '@context': 'https://schema.org';
@@ -37,8 +38,11 @@ const template = function (this: FAQGenerator) {
     return html`
     <header>
         <h2>FAQ</h2>
-        ${ count } items
-        <button type="button" ?disabled=${ !download } @click=${ this.handleDownload }>Download</button>
+        <span class="count">${ count } items</span>
+        <file-selector accept="application/json" @file-changed=${ this.handleFileChanged }>
+            Open File
+        </file-selector>
+        <button ?disabled=${ !download } @click=${ this.handleDownload }>Download</button>
     </header>
 
     <div class="list">
@@ -141,7 +145,7 @@ export class FAQGenerator extends LitElement {
         this.focusForm();
     }
 
-    handleDownload (event: Event) {
+    protected handleDownload (event: Event) {
 
         const json = JSON.stringify(this.data, undefined, 2);
 
@@ -168,6 +172,21 @@ export class FAQGenerator extends LitElement {
             link.remove();
 
         }, 0);
+    }
+
+    protected async handleFileChanged (event: FileChangeEvent) {
+
+        const file = event.detail.file;
+
+        if (file) {
+
+            const content = await file.text();
+
+            this.data = JSON.parse(content);
+
+            this.index = this.data.mainEntity.length;
+
+        }
     }
 
     protected editItem (index: number) {
