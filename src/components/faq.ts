@@ -149,7 +149,7 @@ export class FAQGenerator extends LitElement {
 
         const json = JSON.stringify(this.data, undefined, 2);
 
-        const file = new File([json], 'snippet.json', {
+        const file = new File([json], 'snippets.json', {
             type: 'application/json',
             lastModified: Date.now(),
         });
