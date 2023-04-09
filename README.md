@@ -6,6 +6,8 @@ Editor for creating JSON-LD structured data for Google Rich Results.
 
 ### Live Version
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/be08a84e-045e-45c9-89a5-17fd65a1fe11/deploy-status?branch=main)](https://richresults.allprettybits.com/)
+
 For a live version of the editor, head over to https://richresults.allprettybits.com/.
 
 ### Local Version
