@@ -25,6 +25,7 @@ export default {
             patterns: [
                 'index.html',
                 'main.css',
+                'assets/**/*',
             ],
             rootDir: './src',
         }),

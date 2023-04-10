@@ -8,7 +8,7 @@
   --line-height: calc(1rem * var(--line-ratio));
   --font-family: Helvetica, Arial, sans-serif;
   --font-family-mono: monospace, monospace;
-  --border-width: 2px;
+  --border-width: 1px;
   --border-radius: calc(var(--grid-size) / 2);
   --color-bg: #fff;
   --color-bg-dsbl: #fff;
@@ -24,6 +24,7 @@
   --color-ctrl-brd: #bbb;
   --color-ctrl-brd-act: #aaa;
   --color-ctrl-brd-dsbl: #ddd;
+  --color-input-bg: #f8f8f8;
 }
 
 *,
@@ -102,6 +103,7 @@ input, textarea {
   resize: none;
   border: var(--border-width) solid var(--color-ctrl-brd);
   border-radius: var(--border-radius);
+  background-color: var(--color-input-bg);
 }
 
 button, ::part(button) {
@@ -151,11 +153,26 @@ body {
 }
 
 body > header {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--grid-size);
   padding: var(--grid-size) calc(var(--grid-size) * 2);
 }
 
 body > main {
   overflow: auto;
+}
+
+.link-github {
+  flex: 0 0 auto;
+  display: block;
+}
+
+.link-github svg {
+  display: block;
+  width: var(--line-height);
+  height: var(--line-height);
+  fill: currentColor;
 }
 
 
