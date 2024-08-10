@@ -1,0 +1,88 @@
+input, textarea {
+  padding: calc(var(--grid-size) - var(--border-width)) calc(var(--grid-size) * 2);
+  resize: none;
+  border: var(--border-width) solid var(--color-ctrl-brd);
+  border-radius: var(--border-radius);
+  background-color: var(--color-input-bg);
+}
+
+textarea {
+  white-space: pre-wrap;
+}
+
+button, ::part(button) {
+  --color-fg: var(--color-ctrl-fg);
+  --color-bg: var(--color-ctrl-bg);
+  display: flex;
+  align-items: center;
+  gap: var(--grid-size);
+  padding: calc(var(--grid-size) - var(--border-width)) calc(var(--grid-size) * 2);
+  color: var(--color-fg);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  border: var(--border-width) solid var(--color-ctrl-brd);
+  border-radius: var(--border-radius);
+  background-color: var(--color-bg);
+}
+
+input:hover,
+input:focus,
+textarea:hover,
+textarea:focus,
+button:hover,
+button:focus,
+::part(button):hover,
+::part(button):focus {
+  --color-fg: var(--color-ctrl-fg-act);
+  --color-bg: var(--color-ctrl-bg-act);
+  --color-ctrl-brd: var(--color-ctrl-brd-act);
+}
+
+input:focus,
+textarea:focus,
+button:focus {
+  --color-ctrl-brd: slateblue;
+}
+
+input[disabled],
+textarea[disabled],
+button[disabled] {
+  --color-fg: var(--color-ctrl-fg-dsbl);
+  --color-bg: var(--color-ctrl-bg-dsbl);
+  --color-ctrl-brd: var(--color-ctrl-brd-dsbl);
+}
+
+select {
+  appearance: none;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background: transparent;
+  font-weight: var(--font-weight-bold);
+}
+
+.select {
+  --color-bg: var(--color-ctrl-bg);
+  display: grid;
+  grid-template-areas: 'select';
+  align-items: center;
+  border: var(--border-width) solid var(--color-ctrl-brd);
+  border-radius: var(--border-radius);
+  background-color: var(--color-bg);
+}
+
+.select select {
+  grid-area: select;
+  padding: calc(var(--grid-size) - var(--border-width)) calc(var(--grid-size) * 2);
+  padding-inline-end: calc(var(--line-height) + var(--grid-size) * 3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.select ui-icon {
+  grid-area: select;
+  justify-self: end;
+  margin-inline-end: calc(var(--grid-size) * 2);
+  pointer-events: none;
+}

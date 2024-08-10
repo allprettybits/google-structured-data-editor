@@ -1,7 +1,8 @@
-import { html, LitElement } from 'lit';
+import { html, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import { createRef, ref } from 'lit/directives/ref.js';
-import type { FileChangeEvent } from './file';
+import { ref } from 'lit/directives/ref.js';
+import { PLACEHOLDER, placeholder } from '../templates';
+import { GeneratorElement } from './generator';
 
 export interface FAQPage {
     '@context': 'https://schema.org';
@@ -31,31 +32,37 @@ const QUESTION: Question = {
 
 const template = function (this: FAQGenerator) {
 
+    const data = this.data;
     const item = this.data.mainEntity[this.index];
     const count = this.data.mainEntity.length;
     const download = !item && count > 0;
 
     return html`
-    <header>
-        <h2>FAQ</h2>
-        <span class="count">${ count } items</span>
-        <file-selector accept="application/json" @file-changed=${ this.handleFileChanged }>
-            Open File
-        </file-selector>
-        <button ?disabled=${ !download } @click=${ this.handleDownload }>Download</button>
-    </header>
-
-    <div class="list">
-        ${ this.data.mainEntity.map((question, index) => html`
+    <div class="preview">
         <div class="item">
-            <div class="question">${ question.name }</div>
-            <div class="answer">${ question.acceptedAnswer.text }</div>
-            <div class="controls">
-                <button @click=${ () => this.editItem(index) }>Edit</button>
-                <button @click=${ () => this.deleteItem(index) }>Delete</button>
-            </div>
+
+            ${ !data.mainEntity.length
+                ? html`
+                <div class="preview-faq">
+                    <div class="question">${ placeholder('', PLACEHOLDER.LINE) }<ui-icon name="chevron"></ui-icon></div>
+                    <div class="answer">${ placeholder('', PLACEHOLDER.BLOCK) }</div>
+                </div>
+                `
+                : nothing
+            }
+
+            ${ this.data.mainEntity.map((question, index) => html`
+                <div class="preview-faq">
+                    <div class="question">${ question.name }<ui-icon name="chevron"></ui-icon></div>
+                    <div class="answer">${ question.acceptedAnswer.text }</div>
+                    <div class="controls">
+                        <button title="Edit" @click=${ () => this.editItem(index) }><ui-icon name="pen"></ui-icon></button>
+                        <button title="Delete" @click=${ () => this.deleteItem(index) }><ui-icon name="trash"></ui-icon></button>
+                    </div>
+                </div>
+            `) }
+
         </div>
-        `) }
     </div>
 
     <form ${ ref(this.form) } @submit=${ this.handleSubmit } @reset=${ this.handleReset }>
@@ -67,41 +74,54 @@ const template = function (this: FAQGenerator) {
                 required>${ item?.acceptedAnswer.text ?? '' }</textarea>
         </div>
         <div class="controls">
-            <button type="reset">${ item ? 'Cancel' : 'Clear' }</button>
-            <button type="submit">${ item ? 'Update' : 'Add' }</button>
+            <button type="reset"><ui-icon name="cross"></ui-icon>${ item ? 'Cancel' : 'Clear' }</button>
+            <button type="submit"><ui-icon name="${ item ? 'check' : 'plus' }"></ui-icon>${ item ? 'Update' : 'Add' }</button>
         </div>
     </form>
     `;
 };
 
-@customElement('faq-generator')
-export class FAQGenerator extends LitElement {
-
-    protected form = createRef<HTMLFormElement>();
+@customElement('generator-faq')
+export class FAQGenerator extends GeneratorElement {
 
     @state()
     protected data: FAQPage = {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [],
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        'mainEntity': [],
     };
 
     @state()
     protected index = 0;
 
-    firstUpdated () {
+    render () {
+
+        return template.apply(this);
+    }
+
+    async openFile (file: File): Promise<void> {
+
+        await super.openFile(file);
+
+        this.index = this.data.mainEntity.length;
+    }
+
+    protected editItem (index: number) {
+
+        this.index = index;
 
         this.focusForm();
     }
 
-    createRenderRoot () {
+    protected deleteItem (index: number) {
 
-        return this;
-    }
+        this.data.mainEntity.splice(index, 1);
 
-    render () {
+        this.data = { ...this.data };
 
-        return template.apply(this);
+        this.index = this.data.mainEntity.length;
+
+        this.focusForm();
     }
 
     protected handleSubmit (event: Event) {
@@ -143,72 +163,5 @@ export class FAQGenerator extends LitElement {
         this.index = this.data.mainEntity.length;
 
         this.focusForm();
-    }
-
-    protected handleDownload (event: Event) {
-
-        const json = JSON.stringify(this.data, undefined, 2);
-
-        const file = new File([json], 'snippets.json', {
-            type: 'application/json',
-            lastModified: Date.now(),
-        });
-
-        const url = URL.createObjectURL(file);
-
-        const link = document.createElement('a');
-
-        link.href = url;
-        link.download = file.name;
-        link.style.display = 'none';
-
-        document.body.append(link);
-
-        link.click();
-
-        setTimeout(() => {
-
-            URL.revokeObjectURL(url);
-            link.remove();
-
-        }, 0);
-    }
-
-    protected async handleFileChanged (event: FileChangeEvent) {
-
-        const file = event.detail.file;
-
-        if (file) {
-
-            const content = await file.text();
-
-            this.data = JSON.parse(content);
-
-            this.index = this.data.mainEntity.length;
-
-        }
-    }
-
-    protected editItem (index: number) {
-
-        this.index = index;
-
-        this.focusForm();
-    }
-
-    protected deleteItem (index: number) {
-
-        this.data.mainEntity.splice(index, 1);
-
-        this.data = { ...this.data };
-
-        this.index = this.data.mainEntity.length;
-
-        this.focusForm();
-    }
-
-    protected focusForm () {
-
-        (this.form.value?.elements[0] as HTMLInputElement)?.focus();
     }
 }

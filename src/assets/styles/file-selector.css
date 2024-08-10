@@ -1,0 +1,11 @@
+file-selector {
+  flex-direction: row-reverse;
+  gap: var(--grid-size);
+}
+
+file-selector::part(files) {
+  padding: calc(var(--grid-size) / 2) var(--grid-size);
+  color: var(--color-fg-mc);
+  border-radius: var(--border-radius);
+  background-color: var(--color-ctrl-bg);
+}

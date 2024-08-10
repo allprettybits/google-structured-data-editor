@@ -1,0 +1,23 @@
+.placeholder-word, .placeholder-line {
+  display: inline-block;
+  padding: calc((var(--line-height) - var(--font-size)) / 2) 0;
+  height: var(--font-size);
+  background-color: var(--color-placeholder);
+  border-radius: var(--border-radius);
+}
+
+.placeholder-word {
+  width: 25%;
+}
+
+.placeholder-line {
+  width: 100%;
+}
+
+.placeholder-block {
+  display: block;
+}
+
+.placeholder-block .placeholder-line:last-child {
+  width: 75%;
+}

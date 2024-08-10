@@ -1,0 +1,35 @@
+:root {
+  --rem-ratio: 1;
+  --grid-ratio: 0.5;
+  --font-ratio: 1;
+  --line-ratio: 1.5;
+  --grid-size: calc(1rem * var(--grid-ratio));
+  --font-size: calc(1rem * var(--font-ratio));
+  --line-height: calc(1rem * var(--line-ratio));
+  --font-family: Poppins, Helvetica, Arial, sans-serif;
+  --font-family-mono: monospace, monospace;
+  --font-weight: 400;
+  --font-weight-bold: 600;
+  --border-width: 0px;
+  --border-radius: calc(var(--grid-size) / 2);
+  --border-radius-l: var(--grid-size);
+  --color-bg: #fff;
+  --color-bg-dsbl: #fff;
+  --color-fg: #333;
+  --color-fg-mc: #666;
+  --color-fg-dsbl: #aaa;
+  --color-ctrl-fg: var(--color-fg);
+  --color-ctrl-fg-act: #222;
+  --color-ctrl-fg-dsbl: var(--color-fg-dsbl);
+  --color-ctrl-bg: #eee;
+  --color-ctrl-bg-act: #ddd;
+  --color-ctrl-bg-dsbl: #fff;
+  --color-ctrl-brd: #bbb;
+  --color-ctrl-brd-act: #aaa;
+  --color-ctrl-brd-dsbl: #ddd;
+  --color-input-bg: #f8f8f8;
+  --color-placeholder: #f4f4f4;
+  --color-placeholder-highlight: aliceblue;
+  --color-shadow: rgba(0,0,0,.1);
+  --shadow-close: 0 calc(var(--grid-size) * 0.25) var(--grid-size) 0 var(--color-shadow);
+}
